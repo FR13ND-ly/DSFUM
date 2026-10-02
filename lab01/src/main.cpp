@@ -1,6 +1,8 @@
 #include <Arduino.h>
 
 bool modBlink = false;
+bool ledAprins = false;
+unsigned long lastBlink = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -8,12 +10,22 @@ void setup() {
 }
 
 void blink() {
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1000);
+  if (!modBlink)
+    return;
 
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(10000);
+  if (ledAprins && millis() - lastBlink >= 1000) {
+    digitalWrite(LED_BUILTIN, LOW);
+    ledAprins = false;
+    lastBlink = millis();
+  }
+
+  else if (!ledAprins && millis() - lastBlink >= 10000) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    ledAprins = true;
+    lastBlink = millis();
+  }
 }
+
 
 void loop() {
 
@@ -37,6 +49,7 @@ void loop() {
 
     else if (sentByte == 51) {
       modBlink = true;
+      lastBlink = millis();
       Serial.println("blink");
     }
   }
