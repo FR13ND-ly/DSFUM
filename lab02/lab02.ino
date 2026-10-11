@@ -1,4 +1,5 @@
-//ex1
+
+ //ex1
 
 // #include <Arduino.h>
 // const byte pins[] = {8, 9, 10, 11, 12, 13};
@@ -119,9 +120,9 @@
 
 // void setup() {
 //   Serial.begin(9600);
+//   Serial.setTimeout(10);
 //   pinMode(pin, OUTPUT);
 
-//   Serial.setTimeout(10);
 //   Serial.println("Introdu o valoare intre 0 si 5:");
 // }
 
@@ -134,7 +135,7 @@
 //     }
 
 //     if (volt >= 0 && volt <= 5) {
-//       onTime = (volt / 5.0) * period;
+//       onTime = (unsigned long)(volt / 5.0 * period);
 
 //       Serial.print("Valoare: ");
 //       Serial.println(volt);
@@ -143,22 +144,72 @@
 //     }
 //   }
 
-//   unsigned long elapsed = micros() - t;
+//   unsigned long us = micros();
+//   unsigned long elapsed = us - t;
 
 //   if (elapsed >= period) {
 //     t += (elapsed / period) * period;
-//     elapsed = micros() - t;
+//     elapsed = us - t;
 //   }
 
 //   digitalWrite(pin, elapsed < onTime ? HIGH : LOW);
 // }
 
 
+//ex6
+
+// #include <Arduino.h>
+
+// const byte pin = 8;
+// const unsigned long period = 2000;
+
+// int val = 0;
+// int pas = 5;
+
+// unsigned long tFade = 0;
+// unsigned long tPWM = 0;
+
+// void setup() {
+//   pinMode(pin, OUTPUT);
+// }
+
+// void loop() {
+//   unsigned long ms = millis();
+//   unsigned long us = micros();
+
+//   if (ms - tFade >= 30) {
+//     tFade = ms;
+
+//     val += pas;
+
+//     if (val >= 255) {
+//       val = 255;
+//       pas = -5;
+//     }
+
+//     if (val <= 0) {
+//       val = 0;
+//       pas = 5;
+//     }
+//   }
+
+//   unsigned long elapsed = us - tPWM;
+
+//   if (elapsed >= period) {
+//     tPWM += (elapsed / period) * period;
+//     elapsed = us - tPWM;
+//   }
+
+//   unsigned long onTime =
+//       (unsigned long)val * period / 255;
+
+//   digitalWrite(pin, elapsed < onTime ? HIGH : LOW);
+// }
+
 
 //ex7
 
 // #include <Arduino.h>
-
 // const byte pins[6] = {8, 9, 10, 11, 12, 13};
 
 // int val[6] = {0, 0, 0, 0, 0, 0};
@@ -169,7 +220,7 @@
 // unsigned long tFade[6] = {0};
 // unsigned long tPWM = 0;
 
-// const unsigned long perioada = 2000; 
+// const unsigned long perioada = 2000;
 
 // void setup() {
 //   for (byte i = 0; i < 6; i++) {
