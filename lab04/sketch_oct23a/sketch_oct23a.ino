@@ -1,5 +1,5 @@
 
-const int exercitiu = 2;
+const int exercitiu = 1;
 const int N = 10;
 
 byte digits[10] = {
